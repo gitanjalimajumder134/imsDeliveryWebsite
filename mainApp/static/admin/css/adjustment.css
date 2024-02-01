@@ -1,0 +1,64 @@
+.disabled_dest{
+    background-color: lightgray;
+    pointer-events: none;
+}
+
+
+/* .card-body{
+    display: grid;
+    grid-template-columns: 682px 682px;
+} */
+
+label {
+    font-size: 16px;
+    color: black;
+}
+
+span#select2-id_selectfrom-container {
+    font-size: 16px;
+}
+
+span#select2-id_branchdestination-container {
+    font-size: 16px;
+}
+
+span#select2-id_SelectTo-container {
+    font-size: 16px;
+}
+
+span#select2-id_source-container {
+    font-size: 16px;
+}
+
+span#select2-id_hubdestination-container {
+    font-size: 16px;
+}
+
+
+
+.col-sm-10 a[id^="change_"], .col-sm-10 a[id^="add_"]{
+    display: none;
+}
+
+
+.module caption, .inline-group h2 {
+    display: none;
+}
+
+.inline-group .card-header.bg-primary {
+    display: none;
+}
+
+
+.inline-group div.add-row a{
+    font-size: 16px;
+}
+
+.inline-group .related-widget-wrapper {
+    width: 90%!important;
+}
+
+.inline-group input[type = 'text'], select {
+    margin-left: 0px;
+    font-size: 16px;
+}

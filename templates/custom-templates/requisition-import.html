@@ -1,0 +1,67 @@
+{% extends 'custom-templates/base.html' %} {% load static %} {% block title %}Import Requisition{% endblock %} 
+
+{% block stock_receive_content %}
+
+<div class="card card-info">
+    <div class="card-header">
+      <h3 class="card-title">Import Requisition Data</h3>
+
+      <div class="card-tools">
+        <a type="submit"  href="{% url 'site:RequisitionExportexcel' %}" class="btn btn-success btn-block" >Download File</a>
+      </div>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body" style="overflow:auto">
+      <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+              
+        
+                
+        
+                <form method="post" action="{% url 'site:site-import-requisition' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                  <label>Excel Data Upload </label>
+                  <div class="input-group">
+                    
+                    <input type="file" name="myfile" class="form-control">
+                                         <button type="submit" class="btn btn-success" >Upload</button>                            
+                                        <br/>
+                  </div>
+                  
+                  </div>
+                
+            </div>
+        </div>
+        {% comment %} {% for message in messages %}
+        <div class = "col-md-6">
+          <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        </div>
+        {% endfor %} {% endcomment %}
+        <div class="col-2">
+            <button type="submit" class="btn btn-primary btn-block">Import Orders</button>
+        </div>
+        
+    </form>
+    
+   
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.card-body -->
+</div>
+  <!-- /.card -->
+
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'admin-lte/plugins/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'admin-lte/plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+<script src="{% static 'admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %} "></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+
+<link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/css/dataTables.checkboxes.css" rel="stylesheet" />
+<script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
+{% endblock %}

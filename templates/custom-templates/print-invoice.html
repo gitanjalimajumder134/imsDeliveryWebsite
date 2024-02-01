@@ -1,0 +1,85 @@
+{% extends 'custom-templates/base.html' %} {% load static %} {% block title %}Print Invoice{% endblock %}
+
+{% block stock_receive_content %}
+
+<style>
+
+</style>
+<!-- {% if message %}
+    <p class="login-box-msg" style="color: red;">{{ message }}</p>
+{% endif %} -->
+<!-- SELECT2 EXAMPLE -->
+<div class="card card-info">
+  <div class="card-header">
+    <h3 class="card-title">Print Inovice</h3>
+
+    <div class="card-tools">
+      <button type="button" class="btn btn-tool" data-card-widget="collapse">
+        <i class="fas fa-minus"></i>
+      </button>
+      <button type="button" class="btn btn-tool" data-card-widget="remove">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body" style="overflow:auto">
+    <div class="">
+
+      <div class="col-4">
+        <form action="{% url 'site:site-print-invoice' %}" method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            <label>Inovice No.</label>
+            <input type="text" id="invoiceID" name="invoiceID" class="form-control" data-target="#invoice" />
+          </div>
+          <div class="form-group">
+            <button style="width: fit-content;" type="submit" class="btn btn-info btn-block">
+              Download Inovice
+            </button>
+          </div>
+        </form>
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.card-body -->
+</div>
+<!-- /.card -->
+
+<!-- <p><b>Selected rows data:</b></p>
+<pre id="example-console-rows"></pre> -->
+
+<!-- </form> -->
+
+{% endblock %}
+
+{% block javascript %}
+<!-- jQuery -->
+<script src="{% static 'admin-lte/plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- Select2 -->
+<script src="{% static 'admin-lte/plugins/select2/js/select2.full.min.js' %}"></script>
+<!-- Bootstrap4 Duallistbox -->
+<script src="{% static 'admin-lte/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js' %}"></script>
+<!-- InputMask -->
+<script src="{% static 'admin-lte/plugins/moment/moment.min.js' %}"></script>
+<script src="{% static 'admin-lte/plugins/inputmask/jquery.inputmask.min.js' %}"></script>
+
+<script src="{% static 'admin-lte/plugins/daterangepicker/daterangepicker.js' %}"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+
+<link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/css/dataTables.checkboxes.css"
+  rel="stylesheet" />
+<script type="text/javascript"
+  src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
+
+<script>
+
+</script>
+
+{% endblock %}

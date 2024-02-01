@@ -1,0 +1,293 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+{% load admin_menu %}
+
+{% block extrastyle %}
+{{ block.super }}
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="{% static 'admin-lte/plugins/fontawesome-free/css/all.min.css' %}">
+  <!-- IonIcons -->
+  <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'admin-lte/dist/css/adminlte.min.css' %}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+{% endblock %}
+
+{% block coltype %}colMS{% endblock %}
+
+{% block bodyclass %}{{ block.super }} dashboard{% endblock %}
+{% if not is_popup %}
+{% block breadcrumbs %}
+<div class="row mb-2">
+    <div class="col-sm-4">
+        <h2>{{title}}</h2>
+    </div>
+    <div class="col-sm-8">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{% url 'site:site-dashboard' %}"><i class="fas fa-tachometer-alt"></i> {% trans 'Home' %}</a></li>
+            {% for app in app_list %}
+            <li class="breadcrumb-item active">{{ app.name }}</li>
+            {% endfor %}
+        </ol>
+    </div>
+</div>
+{% endblock %}
+{% endif %}
+
+
+{% block content %}
+<section class="content">
+    <div class="container-fluid">
+    
+        <div class="row">
+            <div class="col-lg-3 col-6">
+    
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h4>User </h4>
+                        <h5>{{UsersCount}}</h5>
+                        <p><br/> </p>
+                        <div class="icon">
+                            <i class="ion ion-person"></i>
+                        </div>
+                    </div>
+                    
+                    <a href="/mainApp/user/" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+    
+            <div class="col-lg-3 col-6">
+    
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h4>Stocks</h4>
+                        <h5>{{OrdersCount}}</h5>
+                        <p><br/></p>
+                        <div class="icon">
+                            <i class="ion ion-bag"></i>
+                        </div>
+                    </div>
+                    
+                    <a href="/site/stockreport" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+    
+            <div class="col-lg-3 col-6">
+    
+                <div class="small-box bg-warning">
+                    <div class="inner">
+                        <h4>Products</h4>
+                        <h5>{{ProductsCount}}</h5>
+                        <p><br/></p>
+                        <div class="icon">
+                            <i class="ion ion-bag"></i>
+                        </div>
+                    </div>
+                    
+                    <a href="/mainApp/product/" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+    
+            <div class="col-lg-3 col-6">
+    
+                <div class="small-box bg-danger">
+                    <div class="inner">
+                        <h4>Orders</h4>
+                        <h5>{{StocksCount}}</h5>
+                        <p><br></p>
+                        <div class="icon">
+                            <i class="ion ion-bag"></i>
+                        </div>
+                    </div>
+                    
+                    <a href="/mainApp/order/" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+    
+        </div>
+    </div>
+</section>
+<div>
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-6">
+
+            <div class="card">
+                <div class="card-header border-0">
+                  <div class="d-flex justify-content-between">
+                    <h3 class="card-title">Products Chart</h3>
+                  </div>
+                </div>
+                <div id="container">
+                    <canvas id="product-chart" style="display: none"></canvas>
+                </div>
+            </div>
+
+            <!-- /.card -->
+            <!-- /.card -->
+          </div>
+          <div class="col-md-6">
+            <div class="card" style="position: relative; height:33.5rem; width:48.8rem">
+              <div class="card-header border-0">
+                <div class="d-flex justify-content-between">
+                  <h3 class="card-title">Sales Chart</h3>
+                </div>
+              </div>
+              <canvas id="sale-chart"></canvas>
+            </div>
+        </div>
+          <!-- /.col-md-6 -->
+          {% comment %} <div class="col-md-6">
+
+            <div class="card">
+                <div class="card-header border-0">
+                  <div class="d-flex justify-content-between">
+                    <h3 class="card-title">Sales Chart</h3>
+                  </div>
+                </div>
+                <div id="container">
+                    <canvas id="sale-chart" style="position: relative; height:9.6vh; width:50vw"></canvas>
+                </div>
+            </div>
+            
+
+            <!-- /.card -->
+            <!-- /.card -->
+          </div> {% endcomment %}
+          <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+</div>
+
+<script src="{% static 'admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'admin-lte/dist/js/adminlte.js' %}"></script>
+<script src="{% static 'admin-lte/plugins/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'admin-lte/plugins/chart.js/Chart.min.js' %}"></script>
+<script src="{% static 'admin-lte/dist/js/demo.js' %}"></script>
+<script src="{% static 'admin-lte/dist/js/pages/dashboard3.js' %}"></script>
+
+<script>  
+//Sales Chart
+    {/* console.log({{ lables|safe }})
+    console.log({{ SalesDatas|safe }})
+      var SalesConfig ={
+        type: 'line',
+        // The data for our dataset
+        data: {
+          datasets: [{
+            data: [{% for sales in SalesDatas%}"{{ sales }}",{% endfor %}],
+            backgroundColor: 'rgb(255, 100, 200)',
+            borderColor: 'rgb(55, 99, 132)',
+            label: 'Sales Chart',
+          }],
+          labels: [{% for i in labels %}"{{ i }}",{% endfor %}],
+        },
+        // Configuration options go here
+        options: {
+          scales: {
+            xAxes: [{
+              display: true
+            }],
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
+        }
+      };
+
+      window.onload = function() {
+        var ctx = document.getElementById('sale-chart').getContext('2d');
+        window.myPie = new Chart(ctx, SalesConfig);
+      }; */}
+
+    var endpoint = '/site/dashboard';
+  
+    $.ajax({
+      method: "GET",
+      url: endpoint,
+      success: function(data) {
+        drawBarGraph(data, 'sale-chart');
+        console.log("drawing");
+      },
+      error: function(error_data) {
+        console.log(error_data);
+      }
+    })
+
+      function drawBarGraph(data, id) {
+        var labels = {{lables|safe}};
+        var chartLabel = 'Sales Chart';
+        var chartdata = {{SalesDatas|safe}};
+        var ctx = document.getElementById(id).getContext('2d');
+        var myChart = new Chart(ctx, {
+          type: 'line',
+  
+        // The data for our dataset
+        data: {
+          labels: labels,
+          datasets: [{
+            label: chartLabel,
+            backgroundColor: 'rgb(255, 100, 200)',
+            borderColor: 'rgb(55, 99, 132)',
+            data: chartdata,
+          }]
+        },
+  
+        // Configuration options go here
+        options: {
+          responsive: true,
+          scales: {
+            xAxes: [{
+              display: true
+            }],
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
+        }
+  
+      });
+      }
+
+
+
+
+
+    //Products Chart
+    var productConfig = {
+        type: 'pie',
+        data: {
+          datasets: [{
+            data: {{ ProductDatas|safe }},
+            backgroundColor: [
+              '#696969', '#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3'
+            ],
+            label: 'Products'
+          }],
+          labels: {{ Productlabels|safe }}
+        },
+        options: {
+          responsive: true
+        }
+      };
+  
+      window.onload = function() {
+        var ctx = document.getElementById('product-chart').getContext('2d');
+        window.myPie = new Chart(ctx, productConfig);
+      };
+
+      
+  
+</script>
+
+
+{% endblock %}

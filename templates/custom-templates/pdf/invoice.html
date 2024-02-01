@@ -1,0 +1,254 @@
+{% load static %}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
+        <style>
+            .challan{
+              padding:30px 40px;
+              display:flex;
+            }
+            table{
+              width:100%;
+            }
+            .tac{
+              text-align:center;
+            }
+            td,th{
+              padding:5px 10px;
+			  font-size: 14px;
+			  font-style: normal;
+            }
+            .bottom-blank{
+              border-bottom: 1px solid black;
+            }
+            .container2{
+              width: 49%;
+              display: inline-block;
+              /* border: 2px solid black; */
+            }
+
+        </style>
+  </head>
+  <body>
+        <div class="challan">
+            
+            <div class="container2">
+				<table>
+					<tr>
+					  <th class="tac" style="font-size:20px;">Tax Invoice</th>
+					</tr>
+				  </table>
+				  <table style="border: 1px solid grey;" cellspacing='0'>
+					<tr >
+						<td rowspan="3">
+							<h3 style="font-size: 12px;color: #272727">
+							<img width=150 src="mainApp/static/admin-lte/dist/img/pennco.png" alt='Pennco Logo'/><br>
+						  {{companyname}} </h3>
+						  <p style="font-size: 12px;color: #272727">R.O:- {{regd}}, {{dist}}</p>
+						</td>
+						<td style="width:5%;font-size: 12px;color: #272727">
+							Inv No: {{invoice_id}}
+						  </td>
+						  <td style="width:10%;font-size: 12px;color: #272727">
+							Dated: {{loandate}}
+						  </td>
+					</tr>
+					<tr>
+					 
+					
+						<td style="font-size: 12px;color: #272727">Buyers Order No. : {{customerid}}</td>
+						<td style="font-size: 12px;color: #272727">Dated: {{loandate}}</td>
+					</tr>
+					<tr>
+					 
+					
+						<td style="font-size: 12px;color: #272727">Delivered by :  {{companyname}}</td>
+						<td style="font-size: 12px;color: #272727">Place Of Supply :  {{branchName}}</td>
+					</tr>
+					<tr> 
+					  <td style="width:45%;font-size: 12px;color: #272727">
+						Customer: {{customer_name}}<br>
+						Customer ID. : {{customerid}}<br>
+						Address : {{address}}
+					  </td>
+					  <td style="width:25%;font-size: 12px;color: #272727">Loan Proposal Id : {{loanno}}</td>
+					  <td style="width:30%;font-size: 12px;color: #272727">
+						
+					  </td>
+				  </tr>
+				</table>
+				<table style="border: 1px solid grey;" cellspacing='0'>
+					<thead>
+					<tr> 
+					  <td style="width:15%;font-size: 12px;color: #272727;text-align: center">
+						SL No
+					  </td>
+					  <td style="width:15%;font-size: 12px;color: #272727;text-align: center">Description of Goods</td>
+					  
+					  <td style="width:15%;font-size: 12px;color: #272727;text-align: center">
+						HSN/SAC
+					</td>
+					<td style="width:12%;font-size: 12px;color: #272727;text-align: center">
+						GST
+					</td>
+					<td  style="width:12%;font-size: 12px;color: #272727;text-align: center">
+						Quantity
+					</td>
+					<td  style="width:14%;font-size: 12px;color: #272727;text-align: center">
+						Rate
+					</td>
+					<td  style="width:7%;font-size: 12px;color: #272727;text-align: center">
+						Per
+					</td>
+					<td  style="width:12%;font-size: 12px;color: #272727;text-align: center">
+						Amount
+					</td>
+
+				  </tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td style="width:15%;font-size: 10px;color: #272727;text-align: center">1</td>
+						<td style="width:15%;font-size: 10px;color: #272727;text-align: center">{{product}} </td>
+						<td style="width:15%;font-size: 10px;color: #272727;text-align: center">{{hsn}}</td>
+						<td style="width:12%;font-size: 10px;color: #272727;text-align: center"> </td>
+						<td style="width:12%;font-size: 10px;color: #272727;text-align: center">{{quantity}} pcs</td>
+						<td style="width:14%;font-size: 10px;color: #272727;text-align: center">{{rate}} </td>
+						<td style="width:7%;font-size: 10px;color: #272727;text-align: center">pcs</td>
+						<td style="width:12%;font-size: 10px;color: #272727;text-align: center">{{rate}} </td>
+					</tr>
+					{% if branchstate == salehub %}
+					<tr>
+						<td style="width:15%;font-size: 10px;color: #272727;text-align: center"></td>
+						<td style="width:15%;font-size: 10px;color: #272727;text-align: center"> </td>
+						<td style="width:15%;font-size: 10px;color: #272727;text-align: center"> </td>
+						<td style="width:12%;font-size: 10px;color: #272727;text-align: center">CGST{{cgst}}%</td>
+						<td style="width:12%;font-size: 10px;color: #272727;text-align: center"> </td>
+						<td style="width:12%;font-size: 10px;color: #272727;text-align: center">{{cgstval}} </td>
+						<td style="width:7%;font-size: 10px;color: #272727;text-align: center"> </td>
+						<td style="width:12%;font-size: 10px;color: #272727;text-align: center">{{cgstval}}</td>
+					</tr>
+					<tr>
+						<td style="width:15%;font-size: 10px;color: #272727;text-align: center"></td>
+						<td style="width:15%;font-size: 10px;color: #272727;text-align: center"> </td>
+						<td style="width:15%;font-size: 10px;color: #272727;text-align: center"></td>
+						<td style="width:12%;font-size: 10px;color: #272727;text-align: center">SGST{{sgst}}%</td>
+						<td style="width:12%;font-size: 10px;color: #272727;text-align: center"> </td>
+						<td style="width:12%;font-size: 10px;color: #272727;text-align: center">{{sgstval}} </td>
+						<td style="width:7%;font-size: 10px;color: #272727;text-align: center"> </td>
+						<td style="width:12%;font-size: 10px;color: #272727;text-align: center">{{sgstval}}</td>
+					</tr>
+					{% else %}
+					<tr>
+						<td style="width:15%;font-size: 10px;color: #272727;text-align: center"></td>
+						<td style="width:15%;font-size: 10px;color: #272727;text-align: center"> </td>
+						<td style="width:15%;font-size: 10px;color: #272727;text-align: center"></td>
+						<td style="width:12%;font-size: 10px;color: #272727;text-align: center">IGST{{igst}}%</td>
+						<td style="width:12%;font-size: 10px;color: #272727;text-align: center"> </td>
+						<td style="width:12%;font-size: 10px;color: #272727;text-align: center">{{igstval}} </td>
+						<td style="width:7%;font-size: 10px;color: #272727;text-align: center"> </td>
+						<td style="width:12%;font-size: 10px;color: #272727;text-align: center">{{igstval}}</td>
+					</tr>
+					{% endif %}
+				</tbody>
+				</table>
+				<table style="border: 1px solid grey;" cellspacing='0'>
+					<tr>
+					  <td style="width:88%;font-size: 12px;color: #272727">
+						  Amount chargeable  (in words): - {{amount |title}} .
+						 </td>
+						 <td style="width:12%;font-size: 12px;color: #272727;text-align: center">
+						  {{totalamount}}
+						 
+						 </td>
+					</tr>
+				  </table>
+            <table style="border: 1px solid grey;" cellspacing='0'>
+              <tr>
+                <td style="width:45%;font-size: 11px;color: #272727;">
+                   GST - {{GSTN}}<br> CIN: {{CIN}}<br>
+				   REGD. OFFICE :- {{regd}}, {{dist}}, Pin- {{companypincode}}
+                   </td>
+               
+                   <td style="width:55%; text-align: center;font-size: 11px;color: #272727;">
+                    For {{company}}<br/><br>Authorized Signatory<br>
+					<img height=60 width=70 src="mainApp/static/admin-lte/dist/img/sigg.png"><br>
+					E. & O.E
+                   </td>
+              </tr>
+            </table>
+			{% if branchstate == salehub %}
+			<table style="border: 1px solid grey;" cellspacing='0'>
+				<thead>
+				<tr> 
+				  <td style="width:15%;font-size: 11px;color: #272727;text-align: center">
+					HSN/SAC
+				  </td>
+				  <td style="width:25%;font-size: 11px;color: #272727;text-align: center">Taxable Value</td>
+				  
+				  <td style="width:22%;font-size: 11px;color: #272727;text-align: center" colspan="2">
+					CGST 
+				</td>
+				<td style="width:22%;font-size: 11px;color: #272727;text-align: center" colspan="2">
+					SGST 
+				</td>
+				<td  style="width:16%;font-size: 11px;color: #272727;text-align: center">
+					Total Amount
+
+			  </tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td style="width:15%;font-size: 11px;color: #272727;text-align: center">1</td>
+					<td style="width:25%;font-size: 11px;color: #272727;text-align: center">{{rate}} </td>
+					<td style="width:11%;font-size: 11px;color: #272727;text-align: center">{{cgst}}</td>
+					<td style="width:11%;font-size: 11px;color: #272727;text-align: center">{{cgstval}} </td>
+					<td style="width:11%;font-size: 11px;color: #272727;text-align: center">{{sgst}} </td>
+					<td style="width:11%;font-size: 11px;color: #272727;text-align: center">{{sgstval}} </td>
+					<td style="width:16%;font-size: 11px;color: #272727;text-align: center">{{totalgst}}</td>
+				</tr>
+				
+			</tbody>
+			</table>
+			{% else %}
+			<table style="border: 1px solid grey;" cellspacing='0'>
+				<thead>
+				<tr> 
+				  <td style="width:15%;font-size: 11px;color: #272727;text-align: center">
+					HSN/SAC
+				  </td>
+				  <td style="width:25%;font-size: 11px;color: #272727;text-align: center">Taxable Value</td>
+				  
+				  <td style="width:24%;font-size: 11px;color: #272727;text-align: center" colspan="2">
+					IGST 
+				</td>
+
+				<td  style="width:26%;font-size: 11px;color: #272727;text-align: center">
+					Total Amount
+				</td>
+			  </tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td style="width:15%;font-size: 11px;color: #272727;text-align: center">1</td>
+					<td style="width:25%;font-size: 11px;color: #272727;text-align: center">{{rate}} </td>					
+					<td style="width:22%;font-size: 11px;color: #272727;text-align: center">{{igst}} </td>
+					<td style="width:22%;font-size: 11px;color: #272727;text-align: center">{{igstval}} </td>
+					<td style="width:26%;font-size: 11px;color: #272727;text-align: center">{{totalgst}}</td>
+				</tr>
+				
+			</tbody>
+			</table>
+			{% endif %}
+            <table style="border: 1px solid grey;" cellspacing='0'>
+              <tr> 
+                <td style="width:100%;font-size: 11px;color: #272727;text-align: center">
+					SUBJECT TO SILIGURI JURIDICTION
+                </td>
+            </tr>
+            </table>
+            </div>
+          </div>
+          
+        </body>   
+</html>

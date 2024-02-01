@@ -1,0 +1,366 @@
+{% extends 'custom-templates/base.html' %} {% load static %}
+{% block title %}Stock Report{% endblock %} 
+{% load bootstrap3 %}
+{% block stock_receive_content %}
+
+<!-- <form id="frm-example" method="POST">
+    {% csrf_token %} -->
+
+<!-- {% if message %}
+    <p class="login-box-msg" style="color: red;">{{ message }}</p>
+{% endif %} -->
+<!-- SELECT2 EXAMPLE -->
+<div class="card card-info">
+    <div class="card-header">
+      <h3 class="card-title">Stock Report</h3>
+      <div class="card-tools">
+        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+          <i class="fas fa-minus"></i>
+        </button>
+        <button type="button" class="btn btn-tool" data-card-widget="remove">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body" style="overflow:auto">
+      
+      <form method="get">
+        {% csrf_token %}
+        <div class="row">
+          
+          <div class="col-md-2">
+            <div class="form-group item">
+              <label style='margin-left: 10px;'>Item:</label>
+              <select name ='item'  id='item'  >
+                <option value=''>-----</option>
+                {% for stockitem in itemlist %}
+                <option value={{stockitem.id}}>{{stockitem.name}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+                <label >From Date:</label>
+                  <div class="input-group date" data-target-input="nearest" >
+                      <input type="date" name ='fromdate' style= 'width: 75%!important;border: 1px solid #999!important;border-radius: 4px!important;height: 38px!important;' id='fromdate'/>
+                      <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                      </div>
+                  </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+              <label>To Date:</label>
+                <div class="input-group date" data-target-input="nearest" >
+                    <input type="date"  style='width: 75%!important;border: 1px solid #999!important;border-radius: 4px!important;height: 38px!important;'  name ='todate'  id='todate'/>
+                    <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                    </div>
+                </div>
+          </div>
+      </div>
+          <div class="col-md-2">
+            <div class="form-group stock">
+              <label style='margin-left: 10px;'>Stock:</label>
+              <select name ='stock'  id='stock' >
+                <option value=''>-----</option>
+                
+                <option value='Hub'>Hub</option>
+                <option value='Branch'>Branch</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group hub">
+              <label style='margin-left: 10px;'>Hubs:</label>
+              <select name ='hub'  id='hub' multiple multiselect-search="true">
+                <option value=''>-----</option>
+
+                <option value = 'all'>Select All</option>
+                {% for hublist in hub %}
+                <option value={{hublist.id}}>{{hublist.name}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group branch">
+              <label style='margin-left: 10px;'>Branch:</label>
+              <select name ='branch'  id='branch'  style="min-width: 50%;" multiple multiselect-search="true">
+                <option value=''>-----</option>
+                <option value = 'all'>Select All</option>
+                {% for branch in branches %}
+                <option value={{branch.id}}>{{branch.branchName}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+    
+          
+          
+        &nbsp;
+          <div class="col-1">
+            {% comment %} {% bootstrap_button 'Filter' button_class="btn-secondary" %} {% endcomment %}
+            <button type="submit" class="btn btn-primary mr-3 mt-3 btn-block">Ok</button>
+          </div>
+          <div class="col-1">
+            {% comment %} {% bootstrap_button 'Filter' button_class="btn-secondary" %} {% endcomment %}
+            <a href="{% url 'site:site-stockreport' %}" class="btn btn-secondary mt-3" style= "width: 92px;">Clear</a>
+          </div>
+          <div id="excel-button" class="col-2">
+            <a type="submit" class="btn btn-success btn-block  mt-3">Excel</a>
+              {% comment %} <button type="button" class="btn btn-success btn-block mt-3">Excel</button> {% endcomment %}
+          </div>
+        <!-- /.col -->
+      </div>
+    </form>
+    
+      <!-- /.row -->
+    </div>
+    <!-- /.card-body -->
+  </div>
+  <!-- /.card -->
+
+<table id="example" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Sl.No</th>
+            <th>Branch or Hub</th>
+            <th>Item</th>
+            <th>Opening Stock</th>
+            <th>Transit Stock</th>
+            <th>Received Stock</th>
+            <th>Transfer Sale(Received)</th> 
+            <th>Transfer Sale(InTransit)</th> 
+            <th>Decrease</th>
+            <th>Increase</th>
+            <th>Closing Stock</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        {% for srl in totalStockList %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{srl.BranchName}}</td>
+            <td>{{srl.ProductName}}</td>
+            <td>{{srl.openingstock}}</td>
+            <td>{{srl.transit}}</td>
+            <td>{{srl.received}}</td>
+            <td>{{srl.transferreceived}}</td>
+            <td>{{srl.transfertransit}}</td>
+            <td>{{srl.decreasequantity}}</td>
+            <td>{{srl.increasequantity}}</td>
+            <td>{{srl.closingstock}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+          <th>Sl.No</th>
+            <th>Branch or Hub</th>
+            <th>Item</th>
+            <th>Opening Stock</th>
+            <th>Transit Stock</th>
+            <th>Received Stock</th>
+            <th>Transfer Sale(Received)</th> 
+            <th>Transfer Sale(InTransit)</th> 
+            <th>Decrease</th>
+            <th>Increase</th>
+            <th>Closing Stock</th>
+        </tr>
+    </tfoot>
+</table>
+
+<!-- <p><b>Selected rows data:</b></p>
+<pre id="example-console-rows"></pre> -->
+
+<!-- </form> -->
+
+{% endblock %}
+
+{% block javascript %}
+<!-- jQuery -->
+<script src="{% static 'admin-lte/plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- Select2 -->
+<script src="{% static 'admin-lte/plugins/select2/js/select2.full.min.js' %}"></script>
+<!-- Bootstrap4 Duallistbox -->
+<script src="{% static 'admin-lte/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js' %}"></script>
+<!-- InputMask -->
+<script src="{% static 'admin-lte/plugins/moment/moment.min.js' %}"></script>
+<script src="{% static 'admin-lte/plugins/inputmask/jquery.inputmask.min.js' %}"></script>
+
+<script src="{% static 'admin-lte/plugins/daterangepicker/daterangepicker.js' %}"></script>
+
+<link rel="stylesheet" href="{% static 'admin/css/stockreport.css' %}">
+
+<script src="{% static 'admin/js/stockreport.js' %}"></script>
+
+<link href="https://rawgit.com/select2/select2/master/dist/css/select2.min.css" rel="stylesheet"/>
+<script src="https://rawgit.com/select2/select2/master/dist/js/select2.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
+
+  <link rel="stylesheet" type="text/css" 
+  href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
+
+  <script type="text/javascript" charset="utf8" 
+  src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+  
+  <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/css/dataTables.checkboxes.css" rel="stylesheet" />
+  <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
+
+<script>
+
+$(document).ready(function() {
+    $('#example').DataTable( {
+        dom: 'Qlfrtip'
+    });
+
+    //$("#id_productID").addClass("form-control").css("width", "30%");
+    //$("#id_stockBranchID").addClass("form-control").css("width", "30%");
+    //$("#id_disbursementStatus").addClass("form-control").css("width", "30%");
+    //$("#id_stockStatus").addClass("form-control").css("width", "30%");
+    //$("#id_startDate").addClass("form-control").css("width", "30%");
+});
+
+$("#excel-button").click(function() {
+  var productText = $("#item :selected").val();
+  //var hubText = $("#hub :selected").val();
+  //var branchText = $("#branch :selected").val();
+  var hubText = $("#hub :selected").map(function(i, el) {
+    return $(el).val();
+  }).get();
+  var branchText = $("#branch :selected").map(function(i, ele) {
+    return $(ele).val();
+  }).get();
+  var fromdate = $("#fromdate").val();
+  var todate = $("#todate").val();
+  var stock = $("#stock").val()
+  
+  console.log('excel value', productText,hubText, branchText, fromdate, todate)
+  var data = `{"productID":"${productText}","hubID":[${hubText}],"branchID":[${branchText}],"fromdate":"${fromdate}","todate":"${todate}"}`;
+ // data = {
+ //   productID:productText,
+ //   hubID:hubText,
+ //   branchID:branchText,
+ //   fromdate:fromdate,
+ //   todate:todate
+ // }
+  let request = new XMLHttpRequest();
+  request.open('POST', '{%url "site:export_excel"%}', true);
+  request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+  // request.setRequestHeader('Content-Type', 'application/json');
+  request.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+  request.responseType = 'blob';
+
+  request.onload = function (e) {
+      if (this.status === 200) {
+          let filename = "";
+          let disposition = request.getResponseHeader('Content-Disposition');
+          // check filename
+          if (disposition && disposition.indexOf('attachment') !== -1) {
+              let filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+              let matches = filenameRegex.exec(disposition);
+              if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
+          }
+          let blob = this.response;
+          if (window.navigator.msSaveOrOpenBlob) {
+              window.navigator.msSaveBlob(blob, filename);
+          }
+          else {
+              let downloadLink = window.document.createElement('a');
+              let contentTypeHeader = request.getResponseHeader("Content-Type");
+              downloadLink.href = window.URL.createObjectURL(new Blob([blob], {type: contentTypeHeader}));
+              downloadLink.download = filename;
+              document.body.appendChild(downloadLink);
+              downloadLink.click();
+              document.body.removeChild(downloadLink);
+          }
+      } else {
+          alert('Download failed.')
+      }
+  };
+  request.send(data);
+});
+
+
+
+$(function () {
+      //Initialize Select2 Elements
+    //   $('.select2').select2()
+
+    //   //Initialize Select2 Elements
+    //   $('.select2bs4').select2({
+    //     theme: 'bootstrap4'
+    //   })
+
+      //Datemask dd/mm/yyyy
+      $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+      //Datemask2 mm/dd/yyyy
+      $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+      //Money Euro
+      $('[data-mask]').inputmask()
+
+      //Date range picker
+    //   $('#reservationdate').datepicker();
+    $(document).ready(function() {
+          
+          $(function() {
+              $( "#reservationdate" ).datepicker();
+              $('.date-picker').on("click", function() {
+                $( "#reservationdate" ).datepicker('show');
+              })
+          });
+      })
+      //Date range picker
+    //   $('#reservation').daterangepicker()
+      //Date range picker with time picker
+      $('#reservationtime').daterangepicker({
+        timePicker: true,
+        timePickerIncrement: 30,
+        locale: {
+          format: 'MM/DD/YYYY hh:mm A'
+        }
+      })
+      //Date range as a button
+      $('#daterange-btn').daterangepicker(
+        {
+          ranges   : {
+            'Today'       : [moment(), moment()],
+            'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month'  : [moment().startOf('month'), moment().endOf('month')],
+            'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+          },
+          startDate: moment().subtract(29, 'days'),
+          endDate  : moment()
+        },
+        function (start, end) {
+          $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+        }
+      )
+
+      //Timepicker
+    //   $('#timepicker').datetimepicker({
+    //     format: 'LT'
+    //   })
+
+      //Bootstrap Duallistbox
+      $('.duallistbox').bootstrapDualListbox()
+
+      $("input[data-bootstrap-switch]").each(function(){
+        $(this).bootstrapSwitch('state', $(this).prop('checked'));
+      });
+
+    })
+
+
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Purchase Order - Pennco</title>
+
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+ 
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+  <style type="text/css" media="all">
+  .wrapper *{
+    font-size: 12px !important; 
+  }
+
+  .footer{
+      position: fixed; 
+      bottom: 0; 
+      align-items: center;
+      margin-top: auto;
+      /** Extra personal styles **/
+      background-color: #eeeeee;
+      color: #000;
+      text-align: center;
+      line-height: 35px;
+  }
+
+  .footer p{
+    font-size:14px !important;
+  }
+  </style>
+
+</head>
+<body>
+<div class="wrapper">
+    <section class="invoice">
+
+      <div class="row" style="margin-bottom:1em;">
+        <div class="col-xs-12">
+          <table width="100%">
+            <tr>
+              <td>
+                <img width=150 src="mainApp/static/admin-lte/dist/img/pennco.png" alt='Pennco Logo'/><br>
+                  <!-- <span> 
+                   <b>PENNCO (PO Proforma)</b>
+                  </span> -->
+              </td>
+              <td style="text-align:right;">
+                  <b>Purchase order No. :</b> {{PoNo}}  <br/>
+                  <b>Date : </b> {{date}}
+              </h5>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+
+      <div class="row" style="margin-bottom:1em;border: 1px solid grey;">
+         <div class="col-xs-12">
+            <p class="lead"></p>
+             <div class="table-responsive">
+                  <table width="100%" style="padding:1em">
+                    <tr>
+                      <td width="60%" style='border: none;'>
+                        
+                        <address>
+                          <b>To</b>
+                          <br>
+                          <b>{{supplier}}</b><br>
+                          <b>email: </b>{{supplieremail}}<br/>
+                          <b>address: </b>{{supplieraddress}},<br/>
+                          <b>City:</b> {{suppliercity}},<br/>
+                          <b>State: </b>{{supplierstate}}<br/>
+                          <b>phone: </b>{{supplierphone}}<br/>
+                        </address>
+                      </td>
+
+                      <td style='border: none;border-left:none;'>
+                        <address>
+                          <strong>From </strong>
+                          <br>
+                         <strong> PENNCO ENTERPRISES PVT. LTD.</strong><br/>
+                         <b>email: </b>purchase@pennco.in<br/>
+                         {{stateaddress}}, CIN - {{statecin}}
+                        </address>
+
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+          </div>
+      </div>
+
+      <span><b>Items Ordered</b></span>
+      <div class="row" style="margin-top:0.5em;border: 1px solid grey;">
+         <div class="col-xs-12">
+            <p class="lead"></p>
+             <div class="table-responsive">
+                  <table class="table">
+                    <tr>
+                    <th style="height:45px;width:130px;border: none;border-left:none;">SL NO.</th>
+                    <th style="height:45px;width:190px;border: none;border-left:none;">Model</th>
+                    <th style="height:45px;width:160px;border: none;border-left:none;">HSN Code</th>
+                    <th style="height:45px;width:160px;border: none;border-left:none;">Quantity</th>
+                    <th style="height:45px;width:160px;border: none;border-left:none;">PO Rate (Incl GST)</th>
+                    <th style="height:45px;width:160px;border: none;border-left:none;">Total</th>
+                  </tr>
+                  {% for itemlist in supplierquantitylist %}
+                  <tr>
+                      <td style="height:45px;width:130px;text-align: center;border: none;border-left:none;">{{ forloop.counter }}</td>
+                      <td style="height:45px;width:190px;text-align: center;border: none;border-left:none;">{{itemlist.items}}</td>
+                      <td style="height:45px;width:160px;text-align: center;border: none;border-left:none;">{{itemlist.itemhsn}}</td>
+                      <td style="height:45px;width:160px;text-align: center;border: none;border-left:none;">{{itemlist.quantity}}</td>
+                      <td style="height:45px;width:160px;text-align: center;border: none;border-left:none;">Rs. {{itemlist.price}}</td>
+                      <td style="height:45px;width:160px;text-align: center;border: none;border-left:none;">Rs. {{itemlist.totalprice}}</td>
+                  </tr>
+                  {% endfor %}
+                  <tr>
+                    <td colspan="5"  style="height:45px;padding-left: 4px;border: none;border-left:none;">Grand Total</td>
+                    <td  style="height:45px;text-align: center;border: none;border-left:none;">Rs. {{suppliergrandtotal}}</td>
+                  </tr>
+                  <tr>
+                    <td colspan="5"  style="height:45px;padding-left: 4px;border: none;border-left:none;">
+                     
+                      Amount Chargeable (in words) : <b style="text-transform: capitalize;">{{amountwords|title}}</b>.
+                    </td>
+                  </tr>
+                  </table>
+             </div>
+         </div>
+      </div>
+
+      <div class="row" style="margin-top:1em;">
+         <div class="col-xs-12">
+          <p style="margin-top:1em;"><b>Please ship to our warehouses as per annexure below</b></p>
+         </div>
+      </div>
+
+    
+      {% for hub in supplierquantitylist %}
+      <div class="row" style="margin-top:1em;">
+         <div class="col-xs-12">
+          
+            <span><b>Item :</b>{{hub.items}}</span>
+            <br/>
+            <p class="lead"></p>
+             <div class="table-responsive">
+                  <table class="table" style="table-layout: fixed; border: 1px solid grey">
+                    <tr>
+                      <th style="height:45px;border: none;border-left:none;">Hub</th>
+                      <th style="height:45px;border: none;border-left:none;">Quantity</th>
+                      <th style="height:45px;border: none;border-left:none;">Contact Person</th>
+                      <th style="height:45px;border: none;border-left:none;">Contact Number</th>
+                      <th style="height:45px;border: none;border-left:none;">Address</th>
+                    </tr>
+                    {% for hubs in hub.hublist %}
+                    <tr>
+                      <td style="padding-top: 2px;width:15%;text-align: center;border: none;border-left:none;">
+                        {{hubs.hubname}}
+                      </td>
+                      <td style="padding-top: 2px;width:10%;text-align: center;border: none;border-left:none;">{{hubs.qty}}</td>
+                      <td style="padding-top: 2px;width:19%;text-align: center;border: none;border-left:none;">{{hubs.contactname}}</td>
+                      <td style="padding-top: 2px;width:16%;text-align: center;border: none;border-left:none;">{{hubs.phone}}</td>
+                      <td style="padding-top: 2px;width: 40%;text-align: left;padding-left: 4px;border: none;border-left:none;">
+                        {{hubs.address}}
+                      </td>
+                    </tr>
+                    {% endfor %}
+                    
+                  </table>
+             </div>
+         </div>
+      </div>
+      {% endfor %}
+
+      <div class="row" >
+        <div class="col-xs-12">
+          <p><b>Thanking You,</b></p>
+          <br/>
+          <b>Yours faithfully,</b>
+          <b>For PENNCO ENTERPRISES PVT LTD</b>
+        </div>
+      </div>
+
+     
+    </section>
+</div>
+<div class="footer">
+  <p>{{stateaddress}}, CIN - {{statecin}}</p>
+</div>
+</body>
+</html>
+

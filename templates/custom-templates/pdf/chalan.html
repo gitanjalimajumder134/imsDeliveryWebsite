@@ -1,0 +1,250 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
+        <style>
+          body{
+            border: 1px solid black;
+          }
+            .challan{
+              padding:30px 40px;
+              display:flex;
+            }
+            table{
+              width:100%;
+            }
+            .tac{
+              text-align:center;
+            }
+            td,th{
+              padding:5px 10px;
+            }
+            .bottom-blank{
+              border-bottom: 1px solid black;
+            }
+            .container2{
+              width: 49%;
+              display: inline-block;
+              /* border: 2px solid black; */
+            }
+
+        </style>
+  </head>
+  <body>
+        <div class="challan">
+            
+            <div class="container2">
+            <table border='1'>
+              
+               <tr>
+                <th class="tac" style="font-size:12px;">{{companyname}}<br/>CIN {{CIN}}<br/>GSTN {{GSTN}}</th>
+                
+              </tr>
+            </table>
+            <table border='1' cellspacing='0'>
+              <tr>
+                <td style="width:100%">
+                    <strong> REGD Office: -</strong> {{sourceaddress}}, </t> <strong>Phone:</strong> {{sourcephone}}</t> 
+                   </td>
+               </tr>
+               <!-- <tr>
+                   <td style="width:100%">
+                    <strong>DESPATCHED FROM: -</strong> {{dispatch}}<br/>
+                   
+                   </td>
+              </tr> -->
+            </table>
+            <table border='1' cellspacing='0'>
+              <tr> 
+                <td style="width:25%">
+                    <strong>CN NO:</strong>
+                </td>
+                <td style="width:25%">WB/MT/2223/{{stockid}}</td>
+                <td style="width:25%">
+                  <strong> CN DATE: </strong>
+                </td>
+                <td style="width:25%">
+                  {{stock_created}}
+               </td>
+            </tr>
+          </table>
+            <table border='1' cellspacing='0'>
+              <tr> 
+                {% if branch != '' %}
+                <td style="width:30%">
+                    <strong>BRANCH:</strong>
+                </td>
+                <td style="width:70%">{{branch}}</td>
+                {% else %}
+                <td style="width:30%">
+                  <strong>Hub:</strong>
+              </td>
+              <td style="width:70%">{{hub}}</td>
+              {% endif %}
+            </tr>
+            <tr> 
+                <td style="width:30%">
+                    <strong>Order Date:</strong>
+                </td>
+                <td style="width:70%">{{orderdate}}</td>
+            </tr>
+            </table>
+            <table border='1' cellspacing='0'>
+                <tr> 
+                  {% if branchmanager != '' %}
+                  <td style="width:40%">
+                      <strong>To, Branch Manager</strong>, C/o, <strong>{{BranchID}}</strong>
+                  </td>
+                  {% else %}
+                  <td style="width:40%">
+                    <strong>To, Hub</strong>, C/o, <strong>{{HubID}}</strong>
+                  </td>
+                  {% endif %}
+                  <td style="width:20%">
+                    {% if branch != '' %}
+                    <strong>Branch</strong></td>
+                    <td style="width:40%">
+                      {{branch}}
+                   </td>
+                    {% else %}
+                    <strong>Hub</strong></td>
+                    <td style="width:40%">
+                      {{hub}}
+                   </td>
+                    {% endif %}
+                  
+              </tr>
+            </table>
+            <table border='1' cellspacing='0'>
+                <tr> 
+                  {% if branchmanager != '' %}
+                  <td style="width:20%">
+                      <strong>BM/AM Name:</strong>
+                  </td>
+                  <td style="width:40%">{{branchmanager}}</td>
+                  {% else %}
+                  <td style="width:20%">
+                    <strong>Name:</strong>
+                </td>
+                <td style="width:40%">{{hubcontactname}}</td>
+                {% endif %}
+                  <td style="width:40%">
+                    
+                      <strong>Value: </strong>
+                      {% for itemlist in transferlist %}
+                      {{itemlist.price}},
+                      {% endfor %}
+                  </td>
+                  
+              </tr>
+              <tr> 
+                <td style="width:20%">
+                    <strong>Contact Number:</strong>
+                </td>
+                <td style="width:40%">{{branchphoneNo}}</td>
+                <td style="width:40%">
+                    <strong>Dispatch Date:</strong> {{dispatch_date}}
+                </td>
+            </tr>
+            </table>
+            <table border='1' cellspacing='0'>
+            <tr> 
+                <td style="width:30%">
+                    <strong>Delivery Address:</strong>
+                </td>
+                <td style="width:70%">{{delivery_address}}</td>
+            </tr>
+            </table>
+            
+            <table border='1'>
+                <tr>
+                <td class="tac">SENDING YOU THE FOLLOWING GOODS ALONG WITH TAX INVOICE:</td>
+                </tr>
+            </table>
+            
+            <table border='1' cellspacing='0'>
+                <thead>
+                <tr> 
+                  <td style="width:20%">
+                    <strong> Product</strong>
+                  </td>
+                  <td style="width:30%"><strong>Quantity</strong></td>
+                  
+                  <td style="width:30%">
+                    <strong>NO OF CARTOONS</strong>
+                </td>
+                <td style="width:30%">
+                    <strong>PACKED IN</strong>
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              {% for itemlist in transferlist %}
+                <tr>
+                    <td>{{itemlist.itemname}}</td>
+                    <td>{{itemlist.stocktransfered}}</td>
+                    <td>{{itemlist.totalcartons}}</td>
+                    <td>CARTONS</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+            
+            <table border='1'>
+              <tr>
+                <td  class="tac">
+                    RECEIVING DETAILS:
+                </td>
+              </tr>
+            </table>
+            <table  border='1'  cellspacing='0'>
+              <tr>
+                <td style="width:20%">
+                    RECEIVERS NAME
+                </td>
+                <td>
+                  
+                </td>
+                <td>
+                  
+                </td>
+              </tr>
+               <tr>
+                <td >
+                    RECEIVING DATE
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+              </tr>
+              <tr>
+                <td >
+                    CONTACT NUMBER
+                </td>
+                <td>
+                  
+                </td>
+                <td>
+                  
+                </td>
+              </tr>
+              <tr>
+                <td >
+                    RECEIVERS SIGNAGURE
+                </td>
+              
+              <td>
+
+              </td>
+              <td>
+
+              </td>
+            </tr>
+            </table>
+            
+            
+            </div>
+          </div>
+          
+        </body>   
+</html>

@@ -1,0 +1,12 @@
+{% extends "admin/base.html" %} {% load i18n %}
+{% block title %}{{ title }} | {{ _('IMS-SYSTEM-PENNCO Panel') }}{% endblock %}
+
+{% block branding %}
+    <h1 id="site-name">
+        <a href="{% url 'admin:index' %}">
+            {{ _('IMS-SYSTEM-PENNCO Panel') }}
+        </a>
+    </h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

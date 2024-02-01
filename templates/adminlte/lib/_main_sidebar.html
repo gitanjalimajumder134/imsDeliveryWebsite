@@ -1,0 +1,198 @@
+{% load adminlte_helpers %} {%load static %}
+<!-- Left side column. contains the sidebar -->
+<aside class="main-sidebar sidebar-white-primary elevation-4">
+  <!-- Brand Logo -->
+  {% block logo %}
+  <a href="/site/dashboard" class="brand-link">
+    <img
+      {% comment %} src="{%static 'admin-lte/dist/img/AdminLTELogo.png' %}"
+      alt="AdminLTE Logo"
+      class="brand-image img-circle elevation-3" 
+      style="opacity: 0.8" {% endcomment %}
+    />
+    {% block logo_text %}<span class="brand-text font-weight-light"
+      >IMS-SYSTEM-PENNCO</span
+    >{% endblock %}
+  </a>
+  {% endblock %}
+  <!-- sidebar: style can be found in sidebar.less -->
+  <div class="sidebar">
+    {% block form %}{% endblock %}
+    <!-- sidebar menu: : style can be found in sidebar.less -->
+    {% block nav_links_ul %}
+    <nav class="mt-2">
+      <ul
+        class="nav nav-pills nav-sidebar flex-column"
+        data-widget="treeview"
+        role="menu"
+        data-accordion="false"
+      >
+        {% block nav_links_outer %}
+        <li class="nav-header">
+          {% block nav_heading %}MAIN NAVIGATION{% endblock %}
+        </li>
+
+        {% block nav_links %}
+        <li class="nav-item">
+          <a href="{% url 'site:site-dashboard' %}" class="nav-link">
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>Dashboard</p>
+          </a>
+        </li>
+            {% if user.is_mfibranch %}
+              Welcome MFI Branch User.
+            {% elif user.is_mfiho %}
+              Welcome MFI HO User.
+            {% endif %}
+                  {% if request.user.is_superuser %}
+                <li class="nav-item has-tree-view">
+                  <a class="nav-link">
+                    <i class="nav-icon fas fa-suitcase"></i>
+                    <p>Masters</p>
+                    <p><i class="right fas fa-angle-left"></i></p>
+                  </a>
+                  <ul class="nav nav-treeview menu-open">
+                    <li class="nav-item">
+                      <a href="/mainApp/user/" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i> Users
+                      </a>
+                    </li>
+                  
+                  <li class="nav-item">
+                    <a href="/mainApp/hub/" class="nav-link"><i class="nav-icon fa fa-globe"></i>
+                      Hubs
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="/mainApp/branch/" class="nav-link">
+                      <i class="fa fa-building nav-icon"></i> Branches
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="/mainApp/product/" class="nav-link">
+                      <i class="fa fa-briefcase nav-icon"></i> Items
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="/mainApp/state/" class="nav-link">
+                      <i class="fa fa-th-large nav-icon"></i> State
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="/mainApp/supplier/" class="nav-link">
+                      <i class="nav-icon fa fa-user"></i>  Supplier
+                    </a>
+                  </li>
+                  </ul>
+                </li>
+                {% endif %}
+
+                <li class="nav-item has-tree-view">
+                  <a href="/mainApp/purchase/" class="nav-link"><i class="nav-icon fa fa-briefcase"></i>
+                      Purchase Order
+                  </a>
+                </li>
+                <li class="nav-item has-tree-view">
+                  <a class="nav-link">
+                    <i class="nav-icon fas fa-briefcase"></i>
+                    <p>Requisition</p>
+                    <p><i class="right fas fa-angle-left"></i></p>
+                  </a>
+                  <ul class="nav nav-treeview menu-open">
+                    <li class="nav-item">
+                      <a href="/mainApp/requisition/" class="nav-link">
+                        <i class="fa fa-shopping-cart nav-icon"></i> All Requisition
+                      </a>
+                    </li>
+    
+                    <li class="nav-item">
+                      <a href="{% url 'site:site-import-requisition' %}" class="nav-link">
+                        <i class="fa fa-upload nav-icon"></i> Import Requisition
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item has-tree-view">
+                  <a class="nav-link">
+                    <i class="nav-icon fas fa-suitcase"></i>
+                    <p>Stocks</p>
+                    <p><i class="right fas fa-angle-left"></i></p>
+                  </a>
+                  <ul class="nav nav-treeview menu-open">
+                    <li class="nav-item">
+                      <a href="/mainApp/stock/" class="nav-link">
+                        <i class="fa fa-suitcase nav-icon"></i> Stock Movement
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a
+                        href="{% url 'site:site-stockreport' %}"
+                        class="nav-link"
+                      >
+                        <i class="nav-icon fa fa-file"></i>
+                        <p>Stock Report</p>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="/mainApp/transit/" class="nav-link">
+                        <i class="nav-icon fa fa-briefcase"></i>  Purchase (In Transit)
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="/mainApp/transfer/" class="nav-link">
+                        <i class="nav-icon fa fa-briefcase"></i>  Stock Transfer
+                      </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                      <a href="/mainApp/adjustment/" class="nav-link">
+                        <i class="nav-icon fa fa-briefcase"></i>  Adjustment
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item has-tree-view">
+                  <a class="nav-link">
+                    <i class="nav-icon fas fa-object-group"></i>
+                    <p>Sales</p>
+                    <p><i class="right fas fa-angle-left"></i></p>
+                  </a>
+                  <ul class="nav nav-treeview menu-open">
+                    <li class="nav-item">
+                      <a href="{% url 'site:site-stockreceivereport' %}" class="nav-link">
+                      <i class="nav-icon fa fa-file"></i>Saleable Stock
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="/mainApp/order/" class="nav-link">
+                        <i class="fa fa-shopping-cart nav-icon"></i> All Sales
+                      </a>
+                    </li>
+    
+                    <li class="nav-item">
+                      <a href="{% url 'site:site-import-orders' %}" class="nav-link">
+                        <i class="fa fa-upload nav-icon"></i> Import Sales
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a
+                        href="{% url 'site:site-disbursementreport' %}"
+                        class="nav-link"
+                      >
+                        <i class="nav-icon fa fa-file"></i>
+                        <p>Sale Report</p>
+                      </a>
+                    </li>
+                  </ul>
+                </li>                  
+                  
+                  
+              {% comment %} </ul>
+            </li> {% endcomment %}
+        {% endblock nav_links %} {% endblock nav_links_outer %}
+      </ul>
+    </nav>
+    {% endblock nav_links_ul %}
+  </div>
+  <!-- /.sidebar -->
+</aside>

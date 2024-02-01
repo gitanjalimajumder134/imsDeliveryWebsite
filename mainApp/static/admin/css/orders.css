@@ -1,0 +1,44 @@
+input[type = 'text'], input[type = 'number'], select {
+    margin-left: 0px;
+    font-size: 18px;
+    height: 42px;
+}
+
+.related-widget-wrapper {
+    min-width: calc(175% - 15px - 10px);
+}
+
+.col-sm-10 a[id^="change_"], .col-sm-10 a[id^="add_"]{
+    display: none;
+}
+
+
+.col-sm-10 > select{
+    min-width: calc(90% - 15px - 10px);
+    height: 42px;
+    border-radius: 4px;
+}
+
+input[type = 'number'], input[type = 'text']{
+    min-width: calc(90% - 15px - 10px);
+}
+
+
+label {
+    /* min-width: 100%; */
+    font-size: 18px;
+    color: black;
+}
+
+/* .form-group.row.form-row {
+    display: grid;
+} */
+
+span.select2.select2-container.select2-container--default{
+    width: 860px!important;
+    font-size: 18px;
+}
+/* #calendarbox0{
+    left: 1434px!important;
+    top: 314px!important;
+} */

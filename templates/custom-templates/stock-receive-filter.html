@@ -1,0 +1,236 @@
+{% extends 'custom-templates/base.html' %} {% load static %} {% block title %}Stock Receive{% endblock %} 
+
+{% block stock_receive_content %}
+<div class="card card-info">
+    <div class="card-header">
+      <h3 class="card-title">Branch Stock Receive</h3>
+
+      <div class="card-tools">
+        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+          <i class="fas fa-minus"></i>
+        </button>
+        <button type="button" class="btn btn-tool" data-card-widget="remove">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+    <div class="card-body" style="overflow:auto">
+            <form id="frm-example" method="POST">
+                {% csrf_token %}
+            {% comment %} <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Receive Stock Rows</button>
+            </div> {% endcomment %}
+
+            <table id="example" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Id</th>
+                        <th>Item Name</th>
+                        <th>TotalQuantity</th>
+                        <th>From</th>
+                        <th>Name</th>
+                        <th>To</th>
+                        <th>Name</th>
+                        {% comment %} <th>Transfer Date</th> {% endcomment %}
+                        <th>Received Date</th>
+                        <th>Accept</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for srl in totalStockList %}
+                    <tr>
+                        <td></td>
+                        <td>{{ srl.id }}</td>
+                        <td>{{srl.ProductName}}</td>
+                        <td>{{srl.TotalQuantity}}</td>
+                        <td>{{srl.stockfrom}}</td>
+                        <td>{{srl.stockfromname}}</td>
+                        <td>{{srl.stockto}}</td>
+                        <td>{{srl.stocktoname}}</td>
+                        {% comment %} <td>{{srl.created_at}}</td> {% endcomment %}
+                        <td>{{srl.receiveddate}}</td>
+                        {% if srl.StockStatus == 'InTransit' %}
+                        <td>
+                            <button type='button' class='get-item btn btn-success' id="submitbutton-{{srl.id}}" data-toggle='modal' data-target='.bd-example-modal-xl' id='submit'>Accept</button>
+                            {% comment %} <a class= 'btn btn-success' href= "{% url 'site:site-Transferstatus' srl.id  %}">Accept</a> {% endcomment %}
+                            
+                        </td>
+                        {% endif %}
+                        {% if srl.StockStatus == 'Delivered' %}
+                        <td>
+
+                            
+                            <a class= 'btn btn-warning' href= "{% url 'site:site-TransferDeliveredstatus' srl.id  %}">Roll Back</a>
+                            
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th>Id</th>
+                        <th>Item Name</th>
+                        <th>TotalQuantity</th>
+                        <th>From</th>
+                        <th>Name</th>
+                        <th>To</th>
+                        <th>Name</th>
+                        {% comment %} <th>Transfer Date</th> {% endcomment %}
+                        <th>Received Date</th>
+                        <th>Accept</th>
+                    </tr>
+                </tfoot>
+            </table>
+            <!-- 
+            <p><b>Selected rows data:</b></p>
+            <pre id="example-console-rows"></pre> -->
+
+            </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+
+<script src="{% static 'admin-lte/plugins/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'admin-lte/plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+<script src="{% static 'admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %} "></script>
+  <link rel="stylesheet" type="text/css" 
+  href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
+  <script type="text/javascript" charset="utf8" 
+  src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+  <script src="{% static 'admin/js/stockreceive.js' %}"></script>
+  
+  <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/css/dataTables.checkboxes.css" rel="stylesheet" />
+  <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
+
+<script>
+
+    $(document).ready(function() {
+   var table = $('#example').DataTable({     
+      'columnDefs': [
+         {
+            'targets': 0,
+            'checkboxes': {
+               'selectRow': true
+            }
+         }
+      ],
+      'select': {
+         'style': 'multi'
+      },
+      'order': [[1, 'asc']]
+   });
+   
+    // Handle form submission event 
+   // Handle form submission event 
+    // Handle form submission event 
+    $('#frm-example').on('submit', function(e){
+        var form = this;
+        
+        var rows_selected = table.column(0).checkboxes.selected();
+
+        // Iterate over all selected checkboxes
+        $.each(rows_selected, function(index, rowId){
+            // Create a hidden element 
+         // Create a hidden element 
+            // Create a hidden element 
+            $(form).append(
+                $('<input>')
+                .attr('type', 'hidden')
+                .attr('name', 'id[]')
+                .val(rowId)
+            );
+
+        });
+        $('#example-console-rows').text(rows_selected.join(","));
+        $.ajax(
+            {
+            type:"POST",
+            url: "/stockreceive",
+            data:{
+                'csrfmiddlewaretoken': csrftoken,
+            },
+            success: function( data ) 
+            {
+                console.log('data:', data);
+            },
+            error: function(error){
+                console.log('error: ', error);
+            }
+        });
+
+        // Output form data to a console     
+      // Output form data to a console     
+        // Output form data to a console     
+        //   $('#example-console-form').text($(form).serialize());
+        // Remove added elements
+        $('input[name="id\[\]"]', form).remove();
+       
+        // Prevent actual form submission
+        e.preventDefault();
+   });   
+});
+
+</script>
+
+<div class="modal fade bd-example-modal-xl" id="modalCategory" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <form id="modal-form" class="form-horizontal" enctype="multipart/form-data"  method='POST'> 
+                    <!-- action="{% url 'site:huballocate' %}" -->
+                    {% csrf_token %}
+                <button type="button" 
+                        class="close" 
+                        data-dismiss="modal" 
+                        aria-label="Close">
+                        <span aria-hidden="true">
+                            ×
+                        </span>
+                </button>
+                <div id="header-container" style='display: flex;flex-direction: row;align-items: center;justify-content: center; '>
+                    <h5 style='font-weight: 900; '>Add </h5>
+                    
+                </div>
+         
+            <div class="card card-info">
+                
+                    <div class="modal-body" style= 'width: 1105px;'>
+                        <div class="card-body"  style="display: flex;width: 100%;">
+                            
+                                <div class="form-group row" style="width: 45%;">
+                                    <input type="hidden" class="form-control" name="id" id="id">
+                                    <label for="file" class="col-sm-4 col-form-label" style="font-size: 18px!important;">Select files:</label>
+                                    <div class="col-sm-8">
+                                        <input type="file" id="file" name="file" style="width: 100%;"><br><br>
+                                    </div class="col-sm-8">
+                                </div>
+                                <div class="form-group row" style="width: 45%;">
+                                    <label  class="col-sm-4 col-form-label" style="font-size: 18px!important;">Received Date:</label>
+                                    <div class="col-sm-8">
+                                        <input type="date" class="form-control" name="receivedate" id="receivedate" placeholder="Quantity" style="max-width: 302px;">
+                                    </div>
+                                </div>
+                           
+                        </div>
+                        
+                    <div class="card-footer">
+                        <button type="submit"  class="submitbutton btn btn-info float-right" id="savebutton">Save</button>
+                    </div>
+                    
+                
+            </div>
+        </div>       
+        </div>
+    </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+{% endblock %}

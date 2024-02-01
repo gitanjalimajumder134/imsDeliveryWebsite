@@ -1,0 +1,79 @@
+h3.card-title {
+    display: none;
+}
+
+.inline-group .card-header.bg-primary{
+    display: none;
+}
+
+.module caption, .inline-group h2 {
+    display: none;
+}
+
+.inline-group .card-body {
+    display: flex;
+}
+
+label.col-sm-2.col-form-label {
+    align-items: center;
+    display: flex;
+}
+
+.field-ItemMasterId .related-widget-wrapper, .field-ItemMasterid .related-widget-wrapper {
+    min-width: 100%;
+}
+
+label {
+    font-weight: normal;
+    color: black;
+    font-size: 15px!important;
+}
+
+.inline-group ul.tools a.add, .inline-group div.add-row a, .inline-group .tabular tr.add-row td a {
+    font-size: 1rem;
+}
+
+div[id^="purchase-"] > h3, div[id^="purchase-"] > h3 * {
+    font-size: 1rem;   
+}
+
+.form-group input {
+    max-width: 250px;
+    margin-left: 0!important;
+}
+
+.col-sm-10 > select, .col-sm-10 > input {
+    font-size: 1rem;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    font-size: 1rem;
+}
+
+/* span.inline_label {
+    display: none;
+} */
+b {
+    display: none;
+}
+
+input#allocate {
+    height: 37px;
+}
+
+#item-dropdown {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+}
+
+
+label[for="button"]{
+    display: none!important;
+}
+
+
+.successMessage{
+    display: none;
+}
